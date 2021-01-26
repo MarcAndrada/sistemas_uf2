@@ -1,7 +1,8 @@
 #!/bin/bash
+PORT=2021
 
 echo"Server ABFP"
 
-echo "listening 2021"
+echo "listening $PORT"
 
-nc -l -p 2021
+nc -l -p $PORT
