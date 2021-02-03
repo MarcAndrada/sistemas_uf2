@@ -33,4 +33,22 @@ echo "(5) LISTEN"
 
 HANDSHAKE=`nc -l -p $PORT`
 
+echo "(8) Comprobar y responder Handshake"
+if [ $HANDSHAKE != "THIS_IS_MY_CLASSROOM"  ]; then
+	echo "KO_HANDSHAKE"
+	exit 2
+	
+else
+
+	echo "HANDSHAKE OK"
+
+fi
+
+
+echo "YES_IT_IS" | nc -q 1 $IP_CLIENT $PORT
+
+echo "(9) Listening $PORT"
+
+NAME=`nc -l -p $PORT`
+
 exit 0
