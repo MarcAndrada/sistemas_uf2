@@ -3,6 +3,8 @@
 PORT=2021
 IP_CLIENT="127.0.0.1"
 IP_SERVER="127.0.0.1"
+FILE_NAME="archivo_entrada.vaca"
+
 
 echo "Cliente de ABFP"
 
@@ -31,5 +33,25 @@ if [ "$RESPONSE2" != "YES_IT_IS" ]; then
 	echo "KO_HANDSHAKE"
 	exit 2
 fi
+
+echo "(10) Sending Handshake"
+sleep 1
+echo "FILE_NAME $FILE_NAME" | nc -q 1 $IP_SERVER $PORT
+
+echo "(11) LISTEN FILE_NAME RESPONSE"
+
+if [ "$RESPONSE2" != "OK_FILE_NAME" ]; then
+
+	echo "Error al enviar el nombre del archivo"
+
+	exit 3
+fi
+
+echo "(14) SENDING DATA"
+
+sleep 1
+cat $FILE_NAME | nc -q 1 $IP_SERVER $PORT
+
+
 
 exit 0

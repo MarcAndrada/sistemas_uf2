@@ -44,11 +44,36 @@ else
 
 fi
 
-
+sleep 3
 echo "YES_IT_IS" | nc -q 1 $IP_CLIENT $PORT
 
 echo "(9) Listening $PORT"
 
-NAME=`nc -l -p $PORT`
+FILE_NAME=`nc -l -p $PORT`
+
+PREFIX=`echo $FILE_NAME | cut -d " " -f 1`
+NAME=`echo $FILE_NAME | cut -d " " -f 2`
+
+echo "TEST FILE_NAME"
+if [ "$PREFIX" != "FILE_NAME" ]; then
+
+	echo "Error en el nombre de archivo"
+
+	sleep 1
+	echo "KO_FILE_NAME" | nc -q -1 $IP_CLIENT
+
+	exit 3
+	
+fi
+
+echo "(12) RESPONSE FILE_NAME ()"
+sleep 3 
+echo "OK_FILE_NAME" | nc -q 1 $IP_CLIENT $PORT
+
+echo "(13) LISTEN DATA"
+
+nc -l -p $PORT < $FILE_NAME
+
+
 
 exit 0
