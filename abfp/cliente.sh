@@ -3,7 +3,8 @@
 PORT=2021
 IP_CLIENT="127.0.0.1"
 IP_SERVER="127.0.0.1"
-FILE_NAME="archivo_entrada.vaca"
+FILE_NAME="vaca_salida.txt"
+FLIE_MD5=`echo $FILE_NAME | md5sum | cut -d " " -f 1`
 
 
 echo "Cliente de ABFP"
@@ -34,13 +35,14 @@ if [ "$RESPONSE2" != "YES_IT_IS" ]; then
 	exit 2
 fi
 
-echo "(10) Sending Handshake"
+echo "(10) Sending NAME $FILE_NAME"
 sleep 1
-echo "FILE_NAME $FILE_NAME" | nc -q 1 $IP_SERVER $PORT
+echo "FILE_NAME $FILE_NAME $FILE_MD5" | nc -q 1 $IP_SERVER $PORT
 
 echo "(11) LISTEN FILE_NAME RESPONSE"
+FILT_TEST=`nc -l -p $PORT`
 
-if [ "$RESPONSE2" != "OK_FILE_NAME" ]; then
+if [ "$FILE_TEST" != "OK_FILE_NAME" ]; then
 
 	echo "Error al enviar el nombre del archivo"
 
